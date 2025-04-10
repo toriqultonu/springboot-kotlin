@@ -49,6 +49,11 @@ class NoteController(
         return noteRepository.findByOwnerId(ObjectId(ownerId))
             .map { it.toResponse() }
     }
+
+    @DeleteMapping(path = ["/{id}"])
+    fun deleteById(@PathVariable id: String) {
+        noteRepository.deleteById(ObjectId(id))
+    }
 }
 
 private fun Note.toResponse(): NoteController.NoteResponse {
