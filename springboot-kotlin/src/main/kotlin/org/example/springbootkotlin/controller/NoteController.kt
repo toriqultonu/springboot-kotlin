@@ -3,11 +3,7 @@ package org.example.springbootkotlin.controller
 import org.bson.types.ObjectId
 import org.example.springbootkotlin.database.model.Note
 import org.example.springbootkotlin.database.repository.NoteRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.Instant
 
 @RestController
@@ -33,15 +29,15 @@ class NoteController(
     )
 
     @PostMapping
-    fun save(body: NoteRequest): NoteResponse {
+    fun save(@RequestBody body: NoteRequest): NoteResponse {
         val note = noteRepository.save(
             Note(
                 id = body.id?.let { ObjectId(it) } ?: ObjectId.get(),
                 title = body.title,
                 content = body.content,
                 color = body.color,
-                ownerId = ObjectId(body.ownerId),
                 createdAt = Instant.now(),
+                ownerId = ObjectId()
             )
         )
 
